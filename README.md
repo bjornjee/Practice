@@ -4,4 +4,4 @@
 * nil
 
 ## Ongoing Projects
-* Distributed systems using raft written in rust
+* LSM Database
