@@ -13,5 +13,7 @@ func main() {
 	flushDuration := 10 * time.Second
 	db := internal.NewLSM("test", internal.WithMemtableSizeInB(100*1024*1024), internal.WithLogger(logger), internal.WithFlushDurationSeconds(flushDuration))
 	ctx := context.Background()
-	db.Insert(ctx, "adam", 1)
+	if err := db.Insert(ctx, "adam", 1); err != nil {
+		logger.Print(err)
+	}
 }

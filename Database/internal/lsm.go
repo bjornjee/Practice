@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 )
@@ -21,11 +22,19 @@ type LSMImpl struct {
 	name                 string
 	memtableSizeInB      int
 	flushDurationSeconds time.Duration
-	logger               *log.Logger
+	Logger               *log.Logger
 }
 
-func NewLSM(name string, opt ...Option) LSM {
+func NewLSM(name string, opts ...Option) LSM {
 	impl := defaultLSM()
+	impl.name = name
+	for _, opt := range opts {
+		opt(impl)
+	}
+	fmt.Printf(`LSM database initialised with
+		name: %s,
+		memtableSizeInB: %d,
+		flushDurationSeconds: %v`, impl.name, impl.memtableSizeInB, impl.flushDurationSeconds)
 	return impl
 }
 

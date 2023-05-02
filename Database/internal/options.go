@@ -23,7 +23,7 @@ func WithMemtableSizeInB(size int) Option {
 
 func WithLogger(logger *log.Logger) Option {
 	return func(impl *LSMImpl) *LSMImpl {
-		impl.logger = logger
+		impl.Logger = logger
 		return impl
 	}
 }
