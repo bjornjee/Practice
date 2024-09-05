@@ -71,6 +71,7 @@ arr: {self.arr}
         self.size -=1
         return largest
         
+    # bubble down from root
     def rebuild(self, root):
         child_i = 2*root+1
         if child_i < self.size-1:

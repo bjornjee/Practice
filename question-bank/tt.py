@@ -10,7 +10,7 @@ def find_max_digit(arr,n_str):
     s= []
     for i, d in enumerate(n_str):
         #TODO: impl a better way to lookup this
-        possible_digits = [a for a in arr if a<int(d)]
+        possible_digits = [a for a in arr if a<=int(d)]
         if not possible_digits:
             # decrement the last and return max
             new_possible_digits = []
@@ -32,4 +32,5 @@ def find_max_digit(arr,n_str):
 
 if __name__=='__main__':
     a=[2,5,4]
-    print(find_max_digit(a,'55'))
+    n = 2411
+    print(find_max_digit(a,str(n)))
