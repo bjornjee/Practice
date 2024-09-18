@@ -32,10 +32,44 @@ def insertion_sort(n: List[int]) -> List[int]:
             j -=1
         n[j+1] = next
     return n
-                
+
+
+def quick_sort(n: List[int]) -> List[int]:
+    # defining this so that logic can be customized
+    def _lt(i,j) -> bool:
+        return i<j
+    # _partition returns the index of val n[i] 
+    # where all ele on left of n[i] is _lt n[i] 
+    # and all val on the right is _gt n[i]
+    # it is in place
+    def _partition(i,j) -> int:
+        p=n[i]
+        l=i
+        for r in range(i+1,j+1):
+            # curr less than p, add to s1
+            if _lt(n[r],p):
+                l+=1
+                #swap 
+                n[l],n[r]=n[r],n[l]
+        # swap p with ele in l
+        n[i],n[l]=n[l],n[i]
+        return l
+    # just a helper function so the main func still keep the current signature
+    def _inner_quick_sort(i,j):
+        if i>=j:
+            return
+        idx = _partition(i,j)
+        _inner_quick_sort(i,idx-1)
+        _inner_quick_sort(idx+1,j)
+    _inner_quick_sort(0,len(n)-1)
+    return n
+
+
+    
+
 
 
 if __name__ == '__main__':
     arr = [5,1,6,7,2,4,8]
-    print(insertion_sort(arr))
+    print(quick_sort(arr))
         
