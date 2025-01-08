@@ -2,6 +2,7 @@
 from pydantic import BaseModel
 from typing import Any, List
 from collections import deque
+from sortedcontainers import SortedList
 
 
 class TreeNode(BaseModel):
@@ -133,15 +134,53 @@ def delete(x: int, t: TreeNode)->TreeNode:
         else:
             t.r = delete(x,t.r)
     return t
+
+
+# cool python library which implemented BST
+class Tree:
+
+    def __init__(self,arr:List[int]):
+        # maintains a sorted list of numbers
+        self.l=SortedList(arr)
+    def insert(self,n:int):
+        # approximately log(n)
+        self.l.add(n)
+    def remove(self,n:int):
+        # approximately log(n)
+        self.l.discard(n)
+
+    def find(self,n:int):
+        # approximately log(n)
+        try:
+            self.l.index(n)
+            return True
+        except ValueError:
+            return False
+    def has_element_in_range(self,low:int,high:int):
+        # checks if there number in the tree within the above range
+        # gets the leftest position to insert low s.t. the arr is still sorted
+        pos_low = self.l.bisect_left(low)
+        # gets the rightest position to insert low s.t. the arr is still sorted
+        pos_high = self.l.bisect_right(high)
+        # first check that pos_low is not at the right of the array
+        # then check if the target pos is not in within the same 'gap' in the array
+        return pos_low != len(self.l) and pos_low != pos_high
+
+    
+
+
 if __name__=='__main__':
-    a = TreeNode(n=1,l=None,r=None)
-    c = TreeNode(n=3,l=None,r=None)
-    b = TreeNode(n=2,l=a,r=c)
-    d = TreeNode(n=5,l=None,r=None)
-    f = TreeNode(n=8,l=None,r=None)
-    e = TreeNode(n=6,l=d,r=f)
-    g = TreeNode(n=4,l=b,r=e)
-    h = insert(7,g)
-    print(h)
-    i = delete(4,h)
-    print(i)
+    # a = TreeNode(n=1,l=None,r=None)
+    # c = TreeNode(n=3,l=None,r=None)
+    # b = TreeNode(n=2,l=a,r=c)
+    # d = TreeNode(n=5,l=None,r=None)
+    # f = TreeNode(n=8,l=None,r=None)
+    # e = TreeNode(n=6,l=d,r=f)
+    # g = TreeNode(n=4,l=b,r=e)
+    # h = insert(7,g)
+    # print(h)
+    # i = delete(4,h)
+    # print(i)
+    t = Tree([1,4,7])
+    print(t.has_element_in_range(2,3))
+    print(t.has_element_in_range(5,8))
