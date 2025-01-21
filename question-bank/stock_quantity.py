@@ -23,7 +23,6 @@ def stock_quantity(arr):
         return False
     index_arr=[(0,len(i)) for i in arr]
     out=[]
-    vis=set()
     done=False
     while not done:
         # get minimum date that is not visited
