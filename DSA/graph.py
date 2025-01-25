@@ -84,7 +84,6 @@ def has_cycles(g: DirectedGraph)->bool:
     vis=[False]*l
     in_stack=[False]*l
     def dfs(v):
-        print(f"processing: {v}, instack: {in_stack}")
         vis[v]=True
         in_stack[v]=True
         for n in g.adj[v]:
@@ -93,7 +92,6 @@ def has_cycles(g: DirectedGraph)->bool:
                     return True
             elif in_stack[n]:
                 return True
-        print(f'backtrakcing: {v}, instack: {in_stack}')
         in_stack[v]=False
         return False
     for i in range(l):
@@ -101,9 +99,6 @@ def has_cycles(g: DirectedGraph)->bool:
             if dfs(i):
                 return True
     return False
-
-
-
 
 def dijkstra(g: DirectedGraph, s:int):
     vis = set()
