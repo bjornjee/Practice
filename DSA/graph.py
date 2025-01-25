@@ -45,18 +45,6 @@ def bfs(g: DirectedGraph, v: int):
                 visited.add(n)
 
 
-def bfs(g: DirectedGraph, v: int):
-    visited = set()
-    q = deque([v])
-    visited.add(v)
-    while len(q) > 0:
-        curr = q.popleft()
-        print(curr)
-        for n in g.adj[curr]:
-            if n not in visited:
-                q.append(n)
-                visited.add(n)
-
 def dfs(g: DirectedGraph, v: int):
     visited = set()
     q = [v]
@@ -85,6 +73,36 @@ def toposort(g: DirectedGraph):
             indegree[n] -= 1
             if indegree[n] == 0:
                 q.append(n)
+
+def has_cycles(g: DirectedGraph)->bool:
+    # method 1:
+    # use toposort, if len(output) < len(graph) then there is a cycle
+
+    # method 2:
+    # dfs and keep track of visited node within a pass, if points to ancestor, has cycle
+    l=len(g.adj)
+    vis=[False]*l
+    in_stack=[False]*l
+    def dfs(v):
+        print(f"processing: {v}, instack: {in_stack}")
+        vis[v]=True
+        in_stack[v]=True
+        for n in g.adj[v]:
+            if not vis[n]:
+                if dfs(n):
+                    return True
+            elif in_stack[n]:
+                return True
+        print(f'backtrakcing: {v}, instack: {in_stack}')
+        in_stack[v]=False
+        return False
+    for i in range(l):
+        if not vis[i]:
+            if dfs(i):
+                return True
+    return False
+
+
 
 
 def dijkstra(g: DirectedGraph, s:int):
@@ -125,13 +143,13 @@ def prims(g: DirectedGraph):
 
 if __name__ == '__main__':
     g = DirectedGraph(6,[[0,1],[0,2],[1,2],[1,3],[1,4],[2,4],[2,5],[4,3],[4,5]], [1,4,1,1,7,3,1,2,10])
-#     0
-#   1   2
-# 3   4   5
+    g_cycle = DirectedGraph(6,[[0,1],[0,2],[1,2],[1,3],[1,4],[2,4],[4,3],[4,5],[5,0]], [1,4,1,1,7,3,1,2,1])
 
     #bfs(g,0)
     #dfs(g,0)
     #toposort(g)
     #d = dijkstra(g,0)
     #print(d)
-    print(prims(g))
+    #print(prims(g))
+    print(dict(g_cycle.adj))
+    print(has_cycles(g_cycle))
