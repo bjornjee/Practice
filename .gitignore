@@ -1,4 +1,4 @@
 .idea
 .venv
 .venv/*
-./question-bank/stock_quantity.py
+question-bank/stock_quantity.py
