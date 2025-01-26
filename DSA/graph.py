@@ -23,6 +23,8 @@ class DirectedGraph:
         for i in range(n):
             self.adj[i] = []
         self.weights = {}
+        self.edges=edges
+        self.size=n
         for idx in range(len(edges)):
             i,j = edges[idx]
             # non-directed graph
@@ -136,6 +138,35 @@ def prims(g: DirectedGraph):
         edges.append((v,u))
     return edges
 
+# strongly connected components
+def kosaraju(g: DirectedGraph):
+    def _dfs(g:DirectedGraph, v:int, vis:set, p_stack:List[int]):
+        vis.add(v)
+        for n in g.adj[v]:
+            if n not in vis:
+                _dfs(g,n,vis,p_stack)
+        p_stack.append(v)
+        
+    # step 1: dfs to get priority stack
+    priority_stack = []
+    vis=set()
+    for i in range(len(g.adj)):
+        if i not in vis:
+            _dfs(g,i,vis,priority_stack)
+    # step 2:reverse graph
+    g_rev = DirectedGraph(g.size,[[j,i] for i,j in g.edges],[1]*len(g.edges))
+    # step 3: dfs on reversed graph
+    scc=[]
+    vis = set()
+    while priority_stack:
+        v = priority_stack.pop()
+        if v in vis:
+            continue
+        curr_scc=[]
+        _dfs(g_rev,v,vis,curr_scc)
+        scc.append(curr_scc)
+    return scc
+
 if __name__ == '__main__':
     g = DirectedGraph(6,[[0,1],[0,2],[1,2],[1,3],[1,4],[2,4],[2,5],[4,3],[4,5]], [1,4,1,1,7,3,1,2,10])
     g_cycle = DirectedGraph(6,[[0,1],[0,2],[1,2],[1,3],[1,4],[2,4],[4,3],[4,5],[5,0]], [1,4,1,1,7,3,1,2,1])
@@ -146,5 +177,6 @@ if __name__ == '__main__':
     #d = dijkstra(g,0)
     #print(d)
     #print(prims(g))
-    print(dict(g_cycle.adj))
-    print(has_cycles(g_cycle))
+    #print(dict(g_cycle.adj))
+    #print(has_cycles(g_cycle))
+    print(kosaraju(g_cycle))
