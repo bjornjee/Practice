@@ -2,3 +2,4 @@
 .venv
 .venv/*
 question-bank/stock_quantity.py
+question-bank/4_sum.py
