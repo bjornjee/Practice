@@ -3,3 +3,5 @@
 .venv/*
 question-bank/stock_quantity.py
 question-bank/4_sum.py
+question-bank/island.py
+question-bank/inc.py
